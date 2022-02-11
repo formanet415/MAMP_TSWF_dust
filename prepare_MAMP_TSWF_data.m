@@ -5,15 +5,15 @@ tab = readtable(file);
 
 tswf_epoch = [];
 tswf_samp_rate = [];
-tswf_waveform = zeros(10000, 3, 32768);
-tswf_srf = zeros(10000, 2, 32768);
+tswf_waveform = zeros(3000, 3, 32768);
+tswf_srf = zeros(3000, 2, 32768);
 tswf_samps_per_ch = [];
-tswf_channel_ref = zeros(10000,3);
+tswf_channel_ref = zeros(3000,3);
 
-mamp_data = zeros(10000,1000,4);
-mamp_epoch = zeros(10000,1000);
+mamp_data = zeros(3000,1000,4);
+mamp_epoch = zeros(3000,1000);
 mamp_recs = [];
-mamp_samp_rate = zeros(10000,1000);
+mamp_samp_rate = zeros(3000,1000);
 
 
 for r=1:length(tab.Var1)
@@ -30,7 +30,9 @@ for r=1:length(tab.Var1)
     for i=1:length(idx)
         inds = str2num(strrep(idx(i),'-',':'));
         for ind = inds
-            
+            if ind>length(tswf.epoch)
+                continue
+            end
             t0 = tswf.epoch(ind);
             begindex = length(mamp.epoch(mamp.epoch<t0));
             t1 = addtodate(t0,ceil(1e3*tswf.samples_per_ch(ind)/tswf.samp_rate(ind)),'millisecond');
@@ -38,7 +40,7 @@ for r=1:length(tab.Var1)
             if endindex>length(mamp.epoch) || begindex == 0
                 continue
             end
-            disp(endindex-begindex)
+
             tswf_epoch(end+1) = tswf.epoch(ind);
             len = length(tswf_epoch);
             tswf_samp_rate(end+1) = tswf.samp_rate(ind);

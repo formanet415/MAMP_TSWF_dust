@@ -9,7 +9,7 @@ if ~exist('tofile', 'var')
 end
 ep = data.epoch;
 time = ep(index);
-tds_mode = convertCharsToStrings(data.tds_config_label(:,index));
+tds_mode = convertCharsToStrings(char(data.tds_config_label(:,index)));
 % Pachenko's antenna angle
 pacang = 132.2;
 % RPW ANT in SRF 
